@@ -2,10 +2,14 @@ const mongoose =  require('mongoose');
 const bcrypt =  require('bcrypt');
 const  ShopScheme = mongoose.Schema(
 {
-  username:{
+  shopname:{
     type:String,
     required:true,
   } ,
+  username:{
+    type:String,
+    required:true,
+  },
   password:{
     type:String,
     required:true,
@@ -42,7 +46,7 @@ const  ShopScheme = mongoose.Schema(
   } 
 },{ timestamps:true}
 );
-UserScheme.pre('save', async function(){
+ShopScheme.pre('save', async function(){
   try{ 
     if(!this.isModified('password')) return;
     const salt = await bcrypt.genSalt(10);
@@ -57,7 +61,7 @@ UserScheme.pre('save', async function(){
   }
 });
 
-UserScheme.methods.verifyPassword = async function (password) {
+ShopScheme.methods.verifyPassword = async function (password) {
   return await bcrypt.compare(password,this.password);
   
 }
